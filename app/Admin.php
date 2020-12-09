@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class Admin extends Authenticatable
 {
@@ -15,7 +15,7 @@ class Admin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','first_login','grade'
+        'name', 'email', 'password', 'first_login', 'grade',
     ];
 
     protected $guard = 'admin';
@@ -29,21 +29,41 @@ class Admin extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function organizations(){
-    	return App\Organization::all();
+    public function organizations()
+    {
+        return App\Organization::all();
     }
 
-    public function users(){
-    	return App\User::all();
+    public function users()
+    {
+        return App\User::all();
     }
 
-    public function teachers(){
-    	return App\Teacher::all();
+    public function teachers()
+    {
+        return App\Teacher::all();
     }
 
-    public function songs(){
-    	return App\Song::all();
+    public function songs()
+    {
+        return App\Song::all();
     }
 
-    
+    public function playlists()
+    {
+        return $this->morphToMany('App\Playlist', 'playlistable');
+    }
+
+     public function isUser(){
+        return false;
+    }
+
+    public function belongsToOrganization(){
+        return false;
+    }
+
+    public function isActive(){
+        return true;
+    }
+
 }

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use \App\Http\Requests\AdminOrganizationPost;
 use App\Http\Controllers\Controller;
 use App\Organization;
+use Illuminate\Http\Request;
+use \App\Http\Requests\AdminOrganizationPost;
 
 class OrganizationController extends Controller
 {
@@ -26,10 +26,9 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $organizations =  Organization::orderBy('created_at','desc')->paginate(10);
+        $organizations = Organization::orderBy('created_at', 'desc')->paginate(10);
         return response()->json($organizations);
     }
-
 
     /**
      * Display the specified resource.
@@ -37,10 +36,10 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Organization $organization){
+    public function show(Organization $organization)
+    {
         return response()->json($organization);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -48,13 +47,14 @@ class OrganizationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AdminOrganizationPost $request){
-        $organization  = Organization::create($request->all());
+    public function store(AdminOrganizationPost $request)
+    {
+        $organization = Organization::create($request->all());
         $organization->generateAccessCode();
+        $organization->generateTeacherPasscode();
         $organization->hashPassword($request);
         return response()->json(null, 201);
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -63,11 +63,11 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Organization $organization){
+    public function update(Request $request, Organization $organization)
+    {
         $organization->update($request->all());
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -75,10 +75,10 @@ class OrganizationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Organization $organization){
+    public function destroy(Organization $organization)
+    {
         $organization->delete();
         return response()->json(null, 204);
     }
 
-}    
-
+}

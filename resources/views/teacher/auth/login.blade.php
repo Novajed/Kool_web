@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if ($errors->has('access_code'))   
+            <div class="alert alert-danger" role="alert">
+              {{ $errors->first('access_code') }}
+            </div>       
+            @endif
             <div class="card">
                 <div class="card-header">Instructor Login</div>
 
@@ -67,7 +72,15 @@
                     </form>
                 </div>
             </div>
-                 <access-input guard="teacher"></access-input>
+            <div class="card-body">
+                    <div class="form-group row">
+                        <label for="access_code" class="col-md-4 col-form-label text-md-right">Don't have an account?</label>
+                    </div>
+            </div>
+              
+
+
+
         </div>
     </div>
 </div>

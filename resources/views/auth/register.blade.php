@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
+                <div class="card-header">Register</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
@@ -61,6 +61,26 @@
                             </div>
                         </div>
 
+                        @if(!empty($access_code))
+                        <div class="form-group row">
+                            <label for="access_code" class="col-md-4 col-form-label text-md-right">Access Code</label>
+
+                            <div class="col-md-6">
+                                <input id="access_code" type="text" class="form-control" name="access_code" value="{{ $access_code }}" required disabled>
+                            </div>
+                        </div>
+                        @endif
+                        @if(empty($access_code))
+                        <div class="form-group row">
+                            <label for="access_code" class="col-md-4 col-form-label text-md-right">Access Code</label>
+
+                            <div class="col-md-6">
+                                <input id="access_code" type="text" class="form-control" name="access_code">
+                            </div>
+                        </div>
+                        @endif
+                        
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -71,6 +91,7 @@
                     </form>
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

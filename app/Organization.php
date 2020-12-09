@@ -2,11 +2,9 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\User;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class Organization extends Authenticatable
 {
@@ -18,7 +16,7 @@ class Organization extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id','name', 'email', 'password','subscription_id','is_active'
+        'id', 'name', 'email', 'password', 'subscription_id', 'is_active',
     ];
 
     /**
@@ -39,81 +37,126 @@ class Organization extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    
-    public function teachers(){
+    public function teachers()
+    {
         return $this->hasMany('App\Teacher');
     }
 
-    public function users(){
+    public function users()
+    {
         return $this->hasMany('App\User');
     }
 
-    public function playlists(){
-        return $this->morphToMany('App\Playlist','playlistable');
-    } 
+    public function resolveGuard($guard)
+    {
+        return $guard == 'user' ? $this->users() : $this->teachers();
+    }
 
-    public function createPlaylist(){
+    public function playlists()
+    {
+        return $this->morphToMany('App\Playlist', 'playlistable');
+    }
+
+    public function createPlaylist()
+    {
         return $this->playlists()->create();
     }
 
-    public function subscription(){
+    public function subscription()
+    {
         return $this->belongsTo('App\Subscription');
     }
 
-    public function addTeacher($request){
+    public function addTeacher($request)
+    {
         $this->teachers()->create($this->teacherData($request));
     }
 
-    public function addUser($request){
+    public function addUser($request)
+    {
         $this->users()->create($this->userData($request));
 
     }
 
-    public function setSubscriptionLevel($id){
+    public function setSubscriptionLevel($id)
+    {
         $this->update(['subscription_id' => $id]);
     }
 
     /*Check is user is active*/
-    public function isActive(){
+    public function isActive()
+    {
         return $this->is_active;
     }
 
-    public function activate(){
+    public function activate()
+    {
         return $this->update(['is_active' => 1]);
     }
 
-    public function deactivate(){
+    public function deactivate()
+    {
         return $this->update(['is_active' => 0]);
     }
 
-
-    protected function teacherData($request){
+    protected function teacherData($request)
+    {
         return $data = [
-            'name' => $request->name,
-            'email'=>$request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
         ];
     }
 
-    protected function userData($request){
-       return $data = [
-            'name' => $request->name,
-            'email'=>$request->email,
+    protected function userData($request)
+    {
+        return $data = [
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
         ];
 
     }
 
-    public function generateAccessCode(){
-        $code = rand(100000,999999);
-        if(!Organization::find($code)){
-           $this->update(['id' => $code]);
-           return $code;
+    public function generateAccessCode()
+    {
+        $code = rand(100000, 999999);
+        if (!Organization::find($code)) {
+            $this->update(['id' => $code]);
+            return $code;
         }
-        generateAccessCode();
+        $this->generateAccessCode();
     }
 
-    public function hashPassword($request){
+    public function generateTeacherPasscode()
+    {
+        $code = rand(100000, 999999);
+        $this->update(['teacher_passcode' => $code]);
+        return $code;
+    }
+
+    public function hashPassword($request)
+    {
         $this->update(['password' => Hash::make($request->password)]);
     }
+
+    public function isUser(){
+        return false;
+    }
+
+    public function belongsToOrganization() {
+        return false;
+    }
+
+    public function canRegisterStudent()
+    {
+        return count($this->users) < $this->max_students; 
+    }
+
+    public function canRegisterTeacher()
+    {
+        return count($this->teachers) < $this->max_teachers;
+    }
+
+    
 }

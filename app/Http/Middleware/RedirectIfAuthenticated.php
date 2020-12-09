@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\Repository\GuardResolver;
 
 class RedirectIfAuthenticated
 {
@@ -17,28 +18,8 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {   
-        switch($guard){
-            case 'admin':
-                if(Auth::guard($guard)->check()){
-                    return redirect(route('admin.home'));
-                }
-                break;
-            case 'organization':
-                if(Auth::guard($guard)->check()){
-                    return redirect(route('org.home'));
-                }
-                break;
-            case 'teacher':
-                if(Auth::guard($guard)->check()){
-                    return redirect('teacher.home');
-                }
-                break;
-            default:
-                if (Auth::guard($guard)->check()) {
-                return redirect('/home');
-                }
-                break;
-            }
-        return $next($request);
+        $guard = new GuardResolver;
+
+        return $guard->isLoggedIn() ? redirect(route($guard->home())): $next($request);
     }
 }

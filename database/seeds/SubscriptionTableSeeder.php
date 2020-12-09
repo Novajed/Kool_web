@@ -12,8 +12,8 @@ class SubscriptionTableSeeder extends Seeder
     public function run()
     {
         DB::table('subscriptions')->insert([
-        		['subscription' => 'Full School Site License'],
-        		['subscription' => 'Classroom']
+            ['subscription' => 'Full School Site License'],
+            ['subscription' => 'Classroom'],
         ]);
     }
 }

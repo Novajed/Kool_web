@@ -128,8 +128,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'teacher_passcode' => [
+            'exists' => 'Teacher passcode invalid.',
         ],
     ],
 

@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->boolean('first_login')->default(0);
             $table->boolean('is_active')->default(1);
             $table->integer('organization_id')->nullable();
+            $table->integer('user_type')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

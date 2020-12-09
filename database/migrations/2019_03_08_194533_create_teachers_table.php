@@ -21,6 +21,7 @@ class CreateTeachersTable extends Migration
             $table->string('password');
             $table->boolean('first_login')->default(0);
             $table->integer('organization_id')->nullable();
+            $table->integer('user_type')->default(2);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -25,7 +25,7 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'Koolriculum') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -50,18 +50,35 @@
                                 </li>
                             @endif
                         @else
-                            @auth('web')
+                            @user
                             <li class="nav-item">
-                                <router-link class="nav-link" to="/home">Home</router-link>
+                                <router-link class="nav-link" to="/home">Dashboard</router-link>
                             </li>
-                            @endauth
+                            @bto
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/student/classrooms">My Classes</router-link>
+                            </li>
+                            @endbto
+                            @enduser
                             @auth('admin')
                             <li class="nav-item">
-                                <router-link class="nav-link" to="/admin/home">Home</router-link>
+                                <router-link class="nav-link" to="/admin/home">Dashboard</router-link>
                             </li>
                             <li class="nav-item">
                                 <router-link class="nav-link" to="/admin/users">User Dashboard</router-link>
                             </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/admin/songs/create">Add Songs</router-link>
+                            </li>
+                            @endauth
+                            @auth('teacher')
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/portal/home">Dashboard</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/portal/classrooms">My Classes</router-link>
+                            </li>
+                           
                             @endauth
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -69,6 +86,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <router-link to="{{ '/user/'.Auth::user()->id.'/playlists' }}" class="dropdown-item">
+                                        My Playlists
+                                    </router-link>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

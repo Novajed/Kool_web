@@ -12,10 +12,10 @@ class SubjectsTableSeeder extends Seeder
     public function run()
     {
         DB::table('subjects')->insert([
-        		['subject' => 'ELA'],
-        		['subject' => 'Math'],
-        		['subject' => 'Science'],
-        		['subject' => 'Social Studies']
+            ['subject' => 'ELA'],
+            ['subject' => 'Math'],
+            ['subject' => 'Science'],
+            ['subject' => 'Social Studies'],
         ]);
     }
 }

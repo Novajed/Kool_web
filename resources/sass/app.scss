@@ -1,18 +1,78 @@
-
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url("https://fonts.googleapis.com/css?family=Nunito");
 
 // Variables
-@import 'variables';
+@import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
 
 .navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-@import '~admin-lte/dist/css/adminlte.min.css';
+.card {
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
 
-@import '~@fortawesome/fontawesome-free/css/all.min';
+.card-header {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.grade-button {
+    background-color: #5f5fc4;
+    border-radius: 5px;
+    margin-bottom: 0.5em;
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+.new-playlist {
+    margin-bottom: 1em;
+}
+
+.list-icon {
+    float: right;
+}
+
+bottom-margin {
+    margin-bottom: 1em;
+}
+
+@media (min-width: 768px) {
+    .grade-button {
+        padding: 1em;
+        margin-bottom: 1em;
+    }
+}
+@media (min-width: 991px) {
+    .grade-button {
+        padding: 1.5em;
+        margin-bottom: 1em;
+    }
+    .desktop-order-1 {
+        order: 1;
+    }
+    .desktop-order-2 {
+        order: 2;
+    }
+}
+
+@import "~@fortawesome/fontawesome-free/css/all.min";
+html,
+body {
+    height: 100vh !important;
+}
+
+body {
+    box-sizing: border-box;
+}
+
+.grade-icon {
+    background-color: #fefefe;
+    border: 1px solid #000;
+    padding: 2em;
+}

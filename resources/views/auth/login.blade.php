@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if ($errors->has('access_code'))   
+            <div class="alert alert-danger" role="alert">
+              {{ $errors->first('access_code') }}
+            </div>       
+            @endif
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
 
@@ -42,7 +47,7 @@
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" value="{{ old('remember') ? 'checked' : '' }}">
 
                                     <label class="form-check-label" for="remember">
                                         {{ __('Remember Me') }}
@@ -67,7 +72,14 @@
                     </form>
                 </div>
             </div>
-                 <access-input guard="user"></access-input>
+            
+             <div class="card-body">
+               
+                    <div class="form-group row">
+                        <span>Don't have an account? <a href="/register">Click here</a></span>
+                    </div>
+            </div>
+
         </div>
     </div>
 </div>
